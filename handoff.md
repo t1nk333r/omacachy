@@ -23,9 +23,25 @@ new machine:
 
 ## Version policy
 
-`main` supports Omarchy 4 only. The complete legacy Omarchy 3 implementation
-is preserved on the local `v3` branch, created at `f32b850`; keep any legacy
-maintenance isolated there and do not reintroduce those scripts to `main`.
+`main` supports Omarchy 4 only. The legacy Omarchy 3 implementation is no
+longer in the repository: the local `v3` branch was **dropped on 2026-09-12**
+at tip `f32b850`. Do not reintroduce those scripts to `main`.
+
+Its complete history is preserved in a git bundle, **`omacachy-v3-legacy.bundle`**,
+kept outside the repository at `~/Work/omacachy-v3-legacy.bundle` (27 MB,
+created 2026-09-12). `git bundle verify` reports it okay and recording a
+complete history; its single ref is `refs/remotes/origin/v3` at `f32b850`.
+Restore it with:
+
+```sh
+git bundle verify ~/Work/omacachy-v3-legacy.bundle
+git fetch ~/Work/omacachy-v3-legacy.bundle \
+  refs/remotes/origin/v3:refs/heads/v3
+```
+
+**Risk, recorded not solved**: that bundle is a single uncommitted copy on one
+machine, outside git and outside any backup. Losing it loses the v3 line for
+good. Keep any legacy maintenance on a branch restored from it, never on `main`.
 
 ## How this got here (compressed history, 2026-08-17 → 08-19)
 

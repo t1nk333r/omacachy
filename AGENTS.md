@@ -1,3 +1,5 @@
+# omacachy
+
 ## Agent skills
 
 ### Issue tracker
@@ -10,4 +12,4 @@ The five canonical triage roles, each label string equal to its name (`needs-tri
 
 ### Domain docs
 
-Single-context: one `CONTEXT.md` at the repo root plus `docs/adr/`. See `docs/agents/domain.md`.
+The repo's map is `handoff.md` (components, version policy, release gates); the numbered engineering record is `plans/`, indexed by `plans/README.md`. Read `handoff.md` first. See `docs/agents/domain.md`.

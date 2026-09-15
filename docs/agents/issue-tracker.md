@@ -15,7 +15,11 @@ Infer the repo from `git remote -v`; `gh` does this automatically when run insid
 
 ## Pull requests as a triage surface
 
-**PRs as a request surface: no.** _(Set to `yes` if this repo treats external PRs as feature requests; `/triage` reads this flag.)_
+**PRs as a request surface: no.**
+
+This repo does not treat external pull requests as feature requests. The procedure below is **not live** while that flag reads `no`; it applies only if the flag is ever set to `yes`. `/triage` reads the flag above.
+
+### Procedure, only when that flag is set to `yes`
 
 When set to `yes`, PRs run through the same labels and states as issues, using the `gh pr` equivalents:
 

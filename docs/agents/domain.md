@@ -1,51 +1,38 @@
 # Domain Docs
 
-How the engineering skills should consume this repo's domain documentation when exploring the codebase.
+How the engineering skills should consume this repo's domain record when exploring the codebase.
 
 ## Before exploring, read these
 
-- **`CONTEXT.md`** at the repo root, or
-- **`CONTEXT-MAP.md`** at the repo root if it exists: it points at one `CONTEXT.md` per context. Read each one relevant to the topic.
-- **`docs/adr/`**: read ADRs that touch the area you're about to work in. In multi-context repos, also check `src/<context>/docs/adr/` for context-scoped decisions.
+- **`handoff.md`** at the repo root: the map. It names the components (`bin/`, `share/`, `tests/`) and their state, the version policy, how validation stands and the release gates. Read it first.
+- **`plans/`**: the numbered engineering record. Read **`plans/README.md`** (the status table and discoveries index) second, then the specific `plans/NNN-*.md` for the area you're touching.
 
-If any of these files don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them lazily when terms or decisions actually get resolved.
+If a file you expect is missing, proceed silently. Don't flag its absence; don't suggest creating it upfront.
 
 ## File structure
 
-Single-context repo (most repos):
-
 ```
 /
-├── CONTEXT.md
-├── docs/adr/
-│   ├── 0001-event-sourced-orders.md
-│   └── 0002-postgres-for-write-model.md
-└── src/
+├── handoff.md            ← the map: components, version policy, release gates
+├── plans/
+│   ├── README.md         ← the engineering record index
+│   └── NNN-*.md          ← one file per plan
+├── bin/                  ← entry-point scripts plus bin/lib/ helpers
+├── share/                ← profile-paths.conf
+├── tests/                ← the fixture matrix (run.sh)
+└── docs/agents/          ← these agent docs
 ```
 
-Multi-context repo (presence of `CONTEXT-MAP.md` at the root):
+There is no `src/` directory; the code lives under `bin/`.
 
-```
-/
-├── CONTEXT-MAP.md
-├── docs/adr/                          ← system-wide decisions
-└── src/
-    ├── ordering/
-    │   ├── CONTEXT.md
-    │   └── docs/adr/                  ← context-specific decisions
-    └── billing/
-        ├── CONTEXT.md
-        └── docs/adr/
-```
+## Use the record's vocabulary
 
-## Use the glossary's vocabulary
+When your output names a component, a version, or a validation state (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as `handoff.md` and the plan files define it. Don't drift to synonyms those documents explicitly avoid.
 
-When your output names a domain concept (in an issue title, a refactor proposal, a hypothesis, a test name), use the term as defined in `CONTEXT.md`. Don't drift to synonyms the glossary explicitly avoids.
+If the concept you need isn't recorded yet, that's a signal: either you're inventing language the project doesn't use (reconsider), or there's a real gap (note it in the relevant plan or in `handoff.md`).
 
-If the concept you need isn't in the glossary yet, that's a signal: either you're inventing language the project doesn't use (reconsider) or there's a real gap (note it for `/domain-modeling`).
+## Flag conflicts with recorded decisions
 
-## Flag ADR conflicts
+If your output contradicts a decision in `handoff.md` or an executed plan, surface it explicitly rather than silently overriding:
 
-If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
-
-> _Contradicts ADR-0007 (event-sourced orders), but worth reopening because…_
+> _Contradicts plan 030 (docs and version truth), but worth reopening because…_
