@@ -16,15 +16,20 @@ set -uo pipefail
 #      reason. Index rows are sometimes written by delegated agents, and a
 #      plausible-looking invented hash is a real failure mode.
 #
-# Deliberately NOT checked: field counts, status prefixes, blank lines, path
-# existence, prose width. Those are review questions, not test questions —
-# see plan 050 for the reasoning.
+#   3. Every repo-relative path the agent docs assert actually exists, unless
+#      listed in plans/.known-absent-paths with a reason. The shipped domain
+#      doc once described a src/ordering tree this repo has never had, and an
+#      agent following it read nothing (see plan 047).
+#
+# Deliberately NOT checked: field counts, status prefixes, blank lines, prose
+# width. Those are review questions, not test questions — see plan 050.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PLANS_DIR="$REPO_ROOT/plans"
 INDEX="$PLANS_DIR/README.md"
 ALLOW="$PLANS_DIR/.known-external-refs"
+ALLOW_PATHS="$PLANS_DIR/.known-absent-paths"
 
 fail=0
 note() { printf '%s\n' "$*"; }
@@ -89,6 +94,36 @@ done < <(
 )
 
 note "commit hashes cited: $cited  (known-external, skipped: $allowed)"
+
+# ---- 3. asserted paths exist ----------------------------------------------
+
+# Only backticked tokens under a real top-level directory of this repo are
+# treated as assertions. That excludes bare basenames, GitHub slugs, git refs,
+# system paths and env assignments, which are prose rather than claims about
+# this tree. Globs and brace sets are skipped: they name a shape, not a file.
+paths=0
+while read -r file path; do
+  paths=$((paths + 1))
+  [[ -e ${path%/} ]] && continue
+  if [[ -f $ALLOW_PATHS ]] &&
+     grep -vE '^\s*(#|$)' "$ALLOW_PATHS" | awk '{print $1}' | grep -qx "$path"
+  then
+    continue
+  fi
+  bad "$file asserts path '$path', which does not exist" \
+    "(if the mention is a denial, add it to plans/.known-absent-paths)"
+done < <(
+  for f in AGENTS.md handoff.md docs/agents/*.md; do
+    [[ -f $f ]] || continue
+    # shellcheck disable=SC2016  # backticks are markdown, not expansion
+    grep -oE '`[^`]+`' "$f" | tr -d '`' |
+      grep -E '^(bin|docs|share|tests|plans|src)/' |
+      grep -vE '[ *{]' |
+      while read -r p; do printf '%s %s\n' "$f" "$p"; done
+  done | sort -u
+)
+
+note "paths asserted in agent docs: $paths"
 
 # ---- verdict ---------------------------------------------------------------
 

@@ -26,13 +26,15 @@ verification will not always be that careful.
 
 ## What changed
 
-`bin/check-docs.sh`, read-only, two assertions:
+`bin/check-docs.sh`, read-only, three assertions:
 
 1. **Plan files and index rows agree, both directions.** Every
    `plans/NNN-*.md` has exactly one `| NNN |` row, and every row has a file.
    This is the plan-046 defect.
 2. **Every cited commit hash resolves**, unless listed in
    `plans/.known-external-refs` with a reason. This is the delegation defect.
+3. **Every repo-relative path the agent docs assert exists**, unless listed in
+   `plans/.known-absent-paths` with a reason. This is the plan-047 defect.
 
 The allowlist exists because the record legitimately cites commits that are not
 in this repo: upstream pins (a-la-carchy `f6a02bf`, Omarchy `3c88548`) and two
@@ -43,14 +45,17 @@ listed that fails to resolve is a defect.
 
 ## Verification
 
-- Clean tree: `plan files: 49  index rows: 49`, 105 hashes checked, 7 skipped as
-  known-external, exit 0.
+- Clean tree: 50 plan files / 50 index rows, 110 hashes checked (11 skipped as
+  known-external), 24 asserted paths, exit 0. shellcheck clean.
 - Negative tests, each injected then reverted: a plausible but invented commit
   hash, a deleted index row (042), and an orphan row (099) with no file. All
   three failed with the specific message and exit 1.
 
   (The literal fake hash is deliberately not written here: on first run the
   check flagged this very file for citing it, which is the check working.)
+- Check 3 negative test: the template's `src/ordering/`, `src/billing/` and
+  `docs/adr/0001-event-sourced-orders.md` re-added to the domain doc, then
+  reverted. All three failed with the specific message.
 
 ## Considered and rejected
 
@@ -61,8 +66,20 @@ listed that fails to resolve is a defect.
 - **Asserting field counts, status prefixes, blank lines, prose width**:
   rejected. Those are review questions, not test questions, and encoding taste
   invites arguing with your own tooling. The two checks kept are objective.
-- **Asserting that every path named in the docs exists**: rejected, reluctantly.
-  It would have caught the domain-doc defect, but it needs to understand
-  explicit negative statements ("there is no `src/` directory") and would flag
-  ordinary prose. Worth revisiting if that class of defect recurs.
+- **Asserting that every path named in the docs exists**: rejected on the first
+  pass, then **revisited the same day and adopted** as check 3. The first
+  attempt matched any backticked path-shaped token and produced 20 flags with
+  zero real defects: bare basenames (`common.sh`), GitHub slugs
+  (`mroboff/omarchy-on-cachyos`), globs (`plans/NNN-*.md`), git refs
+  (`refs/remotes/origin/v3`), env assignments and system files.
+
+  What made it viable was narrowing the match to tokens under a real top-level
+  directory of this repo (`bin/ docs/ share/ tests/ plans/ src/`), skipping
+  globs and brace sets. That reads 24 assertions across the agent docs with no
+  false positives. `src/` is the one allowlisted entry, because the domain doc
+  mentions it only to deny it.
+
+  Replaying the original defect confirms the coverage: re-adding the template's
+  `src/ordering/`, `src/billing/` and `docs/adr/0001-event-sourced-orders.md`
+  fails the check on all three.
 - **Silently ignoring unresolvable hashes**: rejected. That is the whole check.

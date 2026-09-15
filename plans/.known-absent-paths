@@ -1,0 +1,10 @@
+# Repo-relative paths that bin/check-docs.sh will see asserted in the agent
+# docs but must NOT require to exist. Add an entry only with a reason.
+#
+# The usual reason is an explicit negative statement: a doc saying a path is
+# absent still mentions it. If a path is genuinely expected to exist and does
+# not, that is the defect this check is for -- fix the doc, don't list it here.
+#
+# format: <path> <reason>
+
+src/  docs/agents/domain.md states there is no src/ directory; the mention is the denial
