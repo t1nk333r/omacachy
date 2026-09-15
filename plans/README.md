@@ -87,6 +87,7 @@ lines in this header were corrected at the same time (see the branch note).
 | 047 | Make `docs/agents/domain.md` describe this repository | P2 | S | none (coordinate with 049, which restates the layout) | DONE (this commit; option (a) — points at `handoff.md` + `plans/`; no `CONTEXT.md`/`docs/adr/`/`src/` claims remain) |
 | 048 | Settle the two unfilled switches in the agent docs | P3 | S | — | DONE (this commit; label table kept as a registry minus the template instruction, `gh pr` block gated behind the flag rather than cut) |
 | 049 | Bring `AGENTS.md` in line with the repo's document conventions | P3 | S | 047 (its outcome decides one line here) | DONE (this commit; H1 added, Domain docs line matches 047, pointer to `handoff.md`) |
+| 050 | A narrow integrity check for the plan record (`bin/check-docs.sh`: plan files vs index rows, cited commit hashes resolve) | P3 | S | 046 | DONE (this commit; 49 files / 49 rows, 105 hashes checked, 7 known-external; three injected defects each caught) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale)

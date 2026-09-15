@@ -1,0 +1,18 @@
+# Commit hashes cited in the plan record that are NOT commits in this repo.
+# bin/check-docs.sh treats anything listed here as expected; anything else that
+# fails to resolve is a defect.
+#
+# Add an entry only with a reason. If a hash belongs to this repo and stopped
+# resolving, that is a real dangling reference — fix the citation, don't list it.
+#
+# format: <hash> <reason>
+
+f6a02bf  upstream a-la-carchy pin (plan 013); a commit in that project, not here
+3c88548  upstream Omarchy HEAD quoted in plan 016's v4 viability note
+
+# Lost to the v3 line being dropped on 2026-09-12. These are historical stamps
+# on plans executed before the drop; the commits are not in the legacy bundle
+# either, so the citations cannot be repointed. plans/README.md already flags
+# the f609f6c case in its drift note.
+f609f6c  v3-era planning stamp on plans 010/011; unreachable since the v3 drop
+baeffd9  claimed landing commit for plan 013; unreachable since the v3 drop
