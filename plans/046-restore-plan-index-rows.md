@@ -7,7 +7,8 @@
 - **Risk**: LOW (documentation only; no runtime code is touched)
 - **Depends on**: none
 - **Category**: docs
-- **Planned at**: 2026-09-15, from the two-axis review of `main...omacachy`
+- **Planned at**: 2026-09-15, from the two-axis review that landed as
+  commit `0d34e04`
 - **Executed**: 2026-09-15, in the same commit as this file (rows 037–049
   appended; delegated to `opencode-go/deepseek-v4.1-flash`, verified here).
 
@@ -46,9 +47,13 @@ block rather than from its commit subject: several of them record verification
 evidence and caveats that a subject line does not carry (045, for one, records
 which branches were exercised in the lab and which were only mock-verified).
 
-Rows **035** and **036** are currently separated from the table body by blank
-lines. Either keep that or normalise it, but decide deliberately rather than
-inheriting it.
+Blank lines separate several rows from the table body. Either keep that or
+normalise it, but decide deliberately rather than inheriting it.
+
+**Decided 2026-09-15: normalised.** Nine blank lines sat inside the table body,
+splitting the index into headerless blocks so that rows 012 onward, including
+the restored 037-049, did not render as part of the status table at all. All
+nine were removed; the table body is now contiguous.
 
 **Not applicable here**: this repo has no roadmap generator (no
 `gen-roadmap.py`, no `docs/Roadmap.md`, no `validate.sh`), so the

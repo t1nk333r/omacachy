@@ -7,7 +7,8 @@
 - **Risk**: LOW (documentation only)
 - **Depends on**: 047 (its outcome decides one line here)
 - **Category**: docs
-- **Planned at**: 2026-09-15, from the two-axis review of `main...omacachy`
+- **Planned at**: 2026-09-15, from the two-axis review that landed as
+  commit `0d34e04`
 - **Executed**: 2026-09-15, in the same commit as this file.
 
 ## Why this matters
@@ -26,6 +27,11 @@ neither path exists.
 - Add an H1 title naming the repository, above the existing `## Agent skills`
   section. Do not disturb the three sub-blocks; the tracker and label summaries
   are correct.
+- **Scope note**: this covers the H1 and the factual Domain docs line only. Do
+  **not** rewrap `AGENTS.md` or `docs/agents/*.md` to the 80-column prose width
+  the rest of the repo uses. Those files are read by agents and by the skills
+  that consume them, and the upstream templates ship unwrapped; the divergence
+  is deliberate.
 - Correct the **Domain docs** line to describe whatever plan 047 settles on. If
   047 takes option (a), this line should name `handoff.md` and `plans/` rather
   than a `CONTEXT.md` that does not exist.

@@ -29,8 +29,9 @@ at tip `f32b850`. Do not reintroduce those scripts to `main`.
 
 Its complete history is preserved in a git bundle,
 **`omacachy-v3-legacy.bundle`**, kept outside the repository at
-`~/Work/omacachy-v3-legacy.bundle` (27 MB, created 2026-09-12). `git bundle verify` reports it okay and recording a
-complete history; its single ref is `refs/remotes/origin/v3` at `f32b850`.
+`~/Work/omacachy-v3-legacy.bundle` (27 MB, created 2026-09-12).
+`git bundle verify` reports it okay and recording a complete history; its
+single ref is `refs/remotes/origin/v3` at `f32b850`.
 Restore it with:
 
 ```sh

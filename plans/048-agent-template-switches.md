@@ -7,7 +7,8 @@
 - **Risk**: LOW (documentation only)
 - **Depends on**: none
 - **Category**: docs
-- **Planned at**: 2026-09-15, from the two-axis review of `main...omacachy`
+- **Planned at**: 2026-09-15, from the two-axis review that landed as
+  commit `0d34e04`
 - **Executed**: 2026-09-15, in the same commit as this file. Kept the table as
   a registry; gated the `gh pr` block rather than deleting it.
 
