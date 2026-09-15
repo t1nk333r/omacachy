@@ -27,9 +27,9 @@ new machine:
 longer in the repository: the local `v3` branch was **dropped on 2026-09-12**
 at tip `f32b850`. Do not reintroduce those scripts to `main`.
 
-Its complete history is preserved in a git bundle, **`omacachy-v3-legacy.bundle`**,
-kept outside the repository at `~/Work/omacachy-v3-legacy.bundle` (27 MB,
-created 2026-09-12). `git bundle verify` reports it okay and recording a
+Its complete history is preserved in a git bundle,
+**`omacachy-v3-legacy.bundle`**, kept outside the repository at
+`~/Work/omacachy-v3-legacy.bundle` (27 MB, created 2026-09-12). `git bundle verify` reports it okay and recording a
 complete history; its single ref is `refs/remotes/origin/v3` at `f32b850`.
 Restore it with:
 
@@ -39,9 +39,14 @@ git fetch ~/Work/omacachy-v3-legacy.bundle \
   refs/remotes/origin/v3:refs/heads/v3
 ```
 
-**Risk, recorded not solved**: that bundle is a single uncommitted copy on one
-machine, outside git and outside any backup. Losing it loses the v3 line for
-good. Keep any legacy maintenance on a branch restored from it, never on `main`.
+Backed up 2026-09-15 to `/mnt/deimos/archive/omacachy/` on the NAS
+(`10.10.10.9`), alongside a `.sha256` and a README carrying the restore
+command. Both copies checksum to `c79aa655f1eb…`; the NAS copy was test-restored
+into an empty repo that day and yielded 111 commits at `f32b850`.
+
+**Residual risk**: both copies sit on the same premises, so there is still no
+off-site copy. Keep any legacy maintenance on a branch restored from the bundle,
+never on `main`.
 
 ## How this got here (compressed history, 2026-08-17 → 08-19)
 
